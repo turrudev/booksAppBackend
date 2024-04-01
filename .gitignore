@@ -1,0 +1,11 @@
+# Dependency directories
+node_modules/
+
+# build output
+./dist
+
+# IDE
+.idea/
+
+# husky
+.husky/
