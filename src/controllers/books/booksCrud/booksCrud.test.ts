@@ -56,5 +56,31 @@ describe('Books CRUD Controller', () => {
             expect(response.body._id).toBeDefined();
             createdBookIds.push(response.body._id);
         });
+
+        it('should return 400 if book has invalid ISBN', async () => {
+            const response: Response = await request(app)
+                .post('/books')
+                .send({
+                    title: 'Testing create book',
+                    authors: [validAuthorId],
+                    _id: "invalid ISBN",
+                    price: 10.5
+                });
+
+            expect(response.status).toBe(400);
+        });
+
+        it('should return 400 if book has invalid price', async () => {
+            const response: Response = await request(app)
+                .post('/books')
+                .send({
+                    title: 'Testing create book',
+                    authors: [validAuthorId],
+                    _id: "invalid ISBN",
+                    price: -100
+                });
+
+            expect(response.status).toBe(400);
+        });
     });
 });
