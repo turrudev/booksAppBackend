@@ -113,4 +113,40 @@ describe('Books CRUD Controller', () => {
             expect(response.status).toBe(404);
         });
     });
+
+    describe('GET /books', () => {
+        const testBooks = [
+            {
+                title: 'Test Book 1',
+                authors: [validAuthorId],
+                _id: generateRandomISBN(),
+                price: 20.5
+            },
+            {
+                title: 'Test Book 2',
+                authors: [validAuthorId],
+                _id: generateRandomISBN(),
+                price: 15.99
+            }
+        ];
+
+        beforeAll(async () => {
+            for (const book of testBooks) {
+                const createResponse: Response = await request(app)
+                    .post('/books')
+                    .send(book);
+
+                createdBookIds.push(createResponse.body._id);
+            }
+        });
+
+        it('should return 200 and an array of books if books exist', async () => {
+            const getAllResponse: Response = await request(app)
+                .get('/books');
+
+            expect(getAllResponse.status).toBe(200);
+            expect(Array.isArray(getAllResponse.body)).toBe(true);
+            expect(getAllResponse.body.length).toBeGreaterThanOrEqual(testBooks.length);
+        });
+    });
 });
