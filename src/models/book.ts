@@ -10,16 +10,15 @@ const validatePrice = (price: number): boolean => {
 };
 
 const BookSchema: Schema = new Schema({
-    title: {type: String, required: true},
-    authors: [{type: Schema.Types.ObjectId, ref: 'Author', required: true}],
-    ISBN: {
+    _id: {
         type: String,
-        required: true,
         validate: {
             validator: validateISBN,
             message: 'Invalid ISBN format. Must be a 13-digit number.'
         }
     },
+    title: {type: String, required: true},
+    authors: [{type: Schema.Types.ObjectId, ref: 'Author', required: true}],
     price: {
         type: Number,
         required: true,
@@ -31,9 +30,9 @@ const BookSchema: Schema = new Schema({
 }) as Schema;
 
 export interface IBook extends Document {
+    _id: string;
     title: string;
     authors: Array<IAuthor['_id']>;
-    ISBN: string;
     price: number;
 }
 
