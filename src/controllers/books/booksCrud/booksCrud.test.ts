@@ -149,4 +149,52 @@ describe('Books CRUD Controller', () => {
             expect(getAllResponse.body.length).toBeGreaterThanOrEqual(testBooks.length);
         });
     });
+
+    describe('PATCH /books/:isbn', () => {
+        let testBookId: string;
+
+        beforeAll(async () => {
+            const createResponse: Response = await request(app)
+                .post('/books')
+                .send({
+                    title: 'Test Book',
+                    authors: [validAuthorId],
+                    _id: generateRandomISBN(),
+                    price: 10.5
+                });
+
+            testBookId = createResponse.body._id;
+            createdBookIds.push(createResponse.body._id);
+        });
+
+        it('should return 404 if book with given ISBN is not found', async () => {
+            const updateResponse: Response = await request(app)
+                .patch('/books/nonexistentisbn')
+                .send({title: 'Updated Title'});
+
+            expect(updateResponse.status).toBe(404);
+        });
+
+        it('should return 400 if invalid updates are provided', async () => {
+            const updateResponse: Response = await request(app)
+                .patch(`/books/${testBookId}`)
+                .send({invalidField: 'Invalid Value'});
+
+            expect(updateResponse.status).toBe(400);
+        });
+
+        it('should update the book if valid updates are provided', async () => {
+            const updateResponse: Response = await request(app)
+                .patch(`/books/${testBookId}`)
+                .send({title: 'Updated Title', price: 15.99});
+
+            expect(updateResponse.status).toBe(200);
+
+            const updatedBookResponse: Response = await request(app)
+                .get(`/books/${testBookId}`);
+
+            expect(updatedBookResponse.body.title).toBe('Updated Title');
+            expect(updatedBookResponse.body.price).toBe(15.99);
+        });
+    });
 });
