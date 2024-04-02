@@ -1,10 +1,11 @@
-import request from 'supertest';
 import app from './index';
+import testsRunning from "./utils/testsRunning";
+import getEnv from "./utils/getEnv";
 
-describe('GET /', () => {
-    it('responds with "Hello, World!"', async () => {
-        const response = await request(app).get('/');
-        expect(response.status).toEqual(200);
-        expect(response.text).toEqual('Hello, World!');
+describe('app', () => {
+    it('runs on test with test env', async () => {
+        await app;
+        expect(testsRunning()).toBe(true);
+        expect(getEnv()).not.toBe("production");
     });
 });

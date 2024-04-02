@@ -9,7 +9,6 @@ import testsRunning from "./utils/testsRunning";
 dotenv.config({path: getEnv()});
 
 (async () => {
-    console.log(process.env.MONGODB_URI);
     await mongoose.connect(process.env.MONGODB_URI!, {});
 })();
 
