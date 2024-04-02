@@ -4,10 +4,12 @@ import dotenv from 'dotenv';
 import authorsRoutes from "./controllers/authors/authorsRoutes";
 import getEnv from "./utils/getEnv";
 import booksRoutes from "./controllers/books/booksRoutes";
+import testsRunning from "./utils/testsRunning";
 
 dotenv.config({path: getEnv()});
 
 (async () => {
+    console.log(process.env.MONGODB_URI);
     await mongoose.connect(process.env.MONGODB_URI!, {});
 })();
 
@@ -22,7 +24,7 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Hello, World!');
 });
 
-if (process.env.NODE_ENV !== 'test') {
+if (!testsRunning()) {
     app.listen(port, () => {
         console.log(`Server is running on http://localhost:${port}`);
     });
