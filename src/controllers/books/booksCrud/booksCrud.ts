@@ -26,12 +26,15 @@ export const createBook = async (req: Request, res: Response): Promise<void> => 
 };
 
 export const getBooks = async (req: Request, res: Response): Promise<void> => {
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-    const skip = (page - 1) * limit;
+    /*
+        TODO implement proper pagination for scaling properly
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 10;
+        const skip = (page - 1) * limit;
+    */
 
     try {
-        const books = await Book.find().skip(skip).limit(limit);
+        const books = await Book.find();
         res.send(books);
     } catch (error) {
         res.status(500).send(error);

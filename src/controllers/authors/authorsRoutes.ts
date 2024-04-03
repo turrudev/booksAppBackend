@@ -1,8 +1,8 @@
 import express from 'express';
-import {getAuthorsByName} from "./getAuthorsByName/getAuthorsByName";
+import {getAuthors} from "./getAuthors/getAuthors";
 
 const authorsRoutes = express.Router();
 
-authorsRoutes.get('/:name', getAuthorsByName);
+authorsRoutes.get('/', getAuthors);
 
 export default authorsRoutes;
