@@ -18,6 +18,8 @@ This repository contains the backend code for the BooksApp project. A very simpl
 - `tsconfig.json`: TypeScript configuration file.
 - `jest.config.ts`: Jest configuration file for unit testing.
 - `package.json`: NPM package configuration file.
+- `openapi.yaml`: API documentation
+- `redoc-static.html`: Static HTML file containing the API Documentation
 - `yarn.lock`: Yarn lock file for dependency management.
 
 ## Prerequisites

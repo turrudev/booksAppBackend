@@ -1,10 +1,11 @@
-import express, {Request, Response} from 'express';
+import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import authorsRoutes from "./controllers/authors/authorsRoutes";
 import getEnv from "./utils/getEnv";
 import booksRoutes from "./controllers/books/booksRoutes";
 import testsRunning from "./utils/testsRunning";
+import path from "path";
 
 dotenv.config({path: getEnv()});
 
@@ -15,12 +16,11 @@ dotenv.config({path: getEnv()});
 const app = express(), port = 3000;
 
 app.use(express.json());
-
 app.use('/authors', authorsRoutes);
 app.use('/books', booksRoutes);
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello, World!');
+app.get('/', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'redoc-static.html'));
 });
 
 if (!testsRunning()) {
