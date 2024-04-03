@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import Author, {IAuthor} from "../../../models/author";
 
+// TODO implement a pagination/pointer system to properly scale
 export const getAuthors = async (req: Request, res: Response): Promise<void> => {
     try {
         const authors: IAuthor[] = await Author.find().limit(50) as IAuthor[];
