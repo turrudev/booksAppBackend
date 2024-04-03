@@ -6,6 +6,7 @@ import getEnv from "./utils/getEnv";
 import booksRoutes from "./controllers/books/booksRoutes";
 import testsRunning from "./utils/testsRunning";
 import path from "path";
+import cors from "cors";
 
 dotenv.config({path: getEnv()});
 
@@ -15,6 +16,7 @@ dotenv.config({path: getEnv()});
 
 const app = express(), port = 3000;
 
+app.use(cors({origin: /^http:\/\/localhost:\d+$/,}));
 app.use(express.json());
 app.use('/authors', authorsRoutes);
 app.use('/books', booksRoutes);
